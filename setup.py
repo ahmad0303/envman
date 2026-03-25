@@ -1,11 +1,19 @@
+import re
 from setuptools import setup, find_packages
 
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
+def get_version():
+    with open("envman/__init__.py", "r") as f:
+        match = re.search(r'__version__\s*=\s*["\']([^"\']+)["\']', f.read())
+        if match:
+            return match.group(1)
+        raise RuntimeError("Version not found in envman/__init__.py")
+
 setup(
-    name="envman",
-    version="1.0.1",
+    name="envman-cli",
+    version=get_version(),
     author="Ahmad Bilal",
     author_email="realahmad001@gmail.com",
     description="Secure environment variable manager with encryption and team sharing",
@@ -19,6 +27,7 @@ setup(
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
         "Development Status :: 4 - Beta",

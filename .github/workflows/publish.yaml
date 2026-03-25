@@ -16,12 +16,15 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
         python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
+        exclude:
+          - os: macos-latest
+            python-version: "3.8"
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v5.6.0
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -50,27 +53,27 @@ jobs:
       version: ${{ steps.get_version.outputs.VERSION }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v5.6.0
         with:
           python-version: "3.x"
 
-      - name: Extract version from setup.py
+      - name: Extract version from __init__.py
         id: get_version
         run: |
           VERSION=$(python -c "
           import re
-          with open('setup.py', 'r') as f:
+          with open('envman/__init__.py', 'r') as f:
               content = f.read()
-          match = re.search(r\"version=['\\\"]([^'\\\"]+)['\\\"]\", content)
+          match = re.search(r'__version__\s*=\s*[\"\\x27]([^\"\\x27]+)[\"\\x27]', content)
           if match:
               print(match.group(1))
           else:
-              raise ValueError('Version not found in setup.py')
+              raise ValueError('Version not found in envman/__init__.py')
           ")
           echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
           echo "Extracted version: $VERSION"
@@ -101,10 +104,10 @@ jobs:
     if: needs.auto-tag.outputs.new_release == 'true' 
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v5.6.0
         with:
           python-version: "3.x"
 
@@ -132,7 +135,7 @@ jobs:
 
     environment:
       name: pypi
-      url: https://pypi.org/project/envman/
+      url: https://pypi.org/project/envman-cli/
 
     steps:
       - name: Download distributions

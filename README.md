@@ -21,7 +21,7 @@ Stop juggling dozens of `.env` files. Manage them all in one place with military
 
 **Install:**
 ```bash
-pip install envman
+pip install envman-cli
 ```
 
 **Initialize:**

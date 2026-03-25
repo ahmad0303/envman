@@ -5,9 +5,9 @@ Get up and running with EnvMan in 5 minutes.
 ## Installation
 
 ```bash
-git clone https://github.com/yourusername/envman.git
+git clone https://github.com/ahmad0303/envman.git
 cd envman
-pip install envman
+pip install envman-cli
 ```
 
 ## Tutorial: Managing Dev & Prod Environments
