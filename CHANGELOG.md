@@ -2,7 +2,7 @@
 
 All notable changes to EnvMan will be documented in this file.
 
-## [1.0.0] - 2024-03-24
+## [1.0.0] - 2026-03-26
 
 ### Added
 - Initial release

@@ -1,0 +1,57 @@
+name: Auto Tag & Release
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write 
+
+jobs:
+  auto-tag:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Extract version from setup.py
+        id: get_version
+        run: |
+          VERSION=$(python -c "
+          import re
+          with open('setup.py', 'r') as f:
+              content = f.read()
+          match = re.search(r\"version=['\\\"]([^'\\\"]+)['\\\"]\", content)
+          if match:
+              print(match.group(1))
+          else:
+              raise ValueError('Version not found in setup.py')
+          ")
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+          echo "Extracted version: $VERSION"
+
+      - name: Check if tag already exists
+        id: check_tag
+        run: |
+          if git rev-parse "v${{ steps.get_version.outputs.VERSION }}" >/dev/null 2>&1; then
+            echo "EXISTS=true" >> $GITHUB_OUTPUT
+            echo "Tag v${{ steps.get_version.outputs.VERSION }} already exists, skipping..."
+          else
+            echo "EXISTS=false" >> $GITHUB_OUTPUT
+            echo "Tag v${{ steps.get_version.outputs.VERSION }} does not exist, creating..."
+          fi
+
+      - name: Create Tag & Release
+        if: steps.check_tag.outputs.EXISTS == 'false'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.get_version.outputs.VERSION }}
+          name: Release v${{ steps.get_version.outputs.VERSION }}
+          generate_release_notes: true
