@@ -1,6 +1,5 @@
 # EnvMan ⚡
 
-[![Tests](https://github.com/ahmad0303/envman/actions/workflows/test.yml/badge.svg)](https://github.com/ahmad0303/envman/actions/workflows/test.yml)
 [![PyPI version](https://badge.fury.io/py/envman.svg)](https://badge.fury.io/py/envman)
 [![Python Versions](https://img.shields.io/pypi/pyversions/envman.svg)](https://pypi.org/project/envman/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
