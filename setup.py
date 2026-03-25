@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="envman",
-    version="1.0.0",
+    version="1.0.1",
     author="Ahmad Bilal",
     author_email="realahmad001@gmail.com",
     description="Secure environment variable manager with encryption and team sharing",
